@@ -1,9 +1,28 @@
 #!/bin/sh
 
+etcd_server=
+while getopts -o e: --long etcdapi: option
+do	case "$option" in
+	e|etcdapi)	
+		etcd_server="$OPTARG";;
+	[?]) 
+		echo <<EOF
+Usage: $0 [-e http://192.168.1.1:4001]
+
+Params
+	-e --etcdapi   set etcd server api address
+EOF
+		exit 1;;
+	esac
+done
+shift $OPTIND-1
+
+IP=$(hostname -I | awk '{print $1}')
+
 KUBE_LOGTOSTDERR=true
 KUBE_LOG_LEVEL=4
-KUBE_BIND_ADDRESS=192.168.230.4
-KUBE_ETCD_SERVERS=http://192.168.230.3:4001
+KUBE_BIND_ADDRESS=$IP
+KUBE_ETCD_SERVERS=$etcd_server
 
 cat <<EOF >/usr/lib/systemd/system/proxy.service
 [Unit]

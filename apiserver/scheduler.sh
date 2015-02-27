@@ -1,8 +1,9 @@
 #!bin/sh
+IP=$(hostname -I | awk '{print $1}')
 
 KUBE_LOGTOSTDERR=true
 KUBE_LOG_LEVEL=4
-KUBE_MASTER=192.168.230.3:8080
+KUBE_MASTER=${IP}:8080
 
 cat <<EOF >/usr/lib/systemd/system/scheduler.service
 [Unit]
@@ -10,7 +11,7 @@ Description=Kubernetes Scheduler
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
-ExecStart=/opt/kubernetes/bin/kube-scheduler \\
+ExecStart=/bin/kube-scheduler \\
     --logtostderr=${KUBE_LOGTOSTDERR} \\
     --v=${KUBE_LOG_LEVEL} \\
     --master=${KUBE_MASTER}

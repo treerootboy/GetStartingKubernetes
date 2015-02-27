@@ -1,9 +1,11 @@
 #!/bin/sh
 
+IP=$(hostname -I | awk '{print $1}')
+
 KUBE_LOGTOSTDERR=true
 KUBE_LOG_LEVEL=4
-KUBE_ETCD_SERVERS=http://192.168.230.3:4001
-KUBE_API_ADDRESS=192.168.230.3
+KUBE_ETCD_SERVERS=http://${IP}:4001
+KUBE_API_ADDRESS=${IP}
 KUBE_API_PORT=8080
 MINION_PORT=10250
 KUBE_ALLOW_PRIV=false
@@ -16,7 +18,7 @@ Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
-ExecStart=/opt/kubernetes/bin/kube-apiserver  \\
+ExecStart=/bin/kube-apiserver  \\
 	--logtostderr=${KUBE_LOGTOSTDERR} \\
 	--v=${KUBE_LOG_LEVEL} \\
 	--etcd_servers=${KUBE_ETCD_SERVERS} \\

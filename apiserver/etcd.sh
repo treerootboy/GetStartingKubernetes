@@ -1,7 +1,8 @@
 #!/bin/sh
+IP=$(hostname -I | awk '{print $1}')
 
-ETCD_PEER_ADDR=192.168.230.3:7001
-ETCD_ADDR=192.168.230.3:4001
+ETCD_PEER_ADDR=${IP}:7001
+ETCD_ADDR=${IP}:4001
 ETCD_DATA_DIR=/var/lib/etcd
 ETCD_NAME=kubernetes
 
@@ -11,7 +12,7 @@ cat <<EOF >//usr/lib/systemd/system/etcd.service
 Description=Etcd Server
 
 [Service]
-ExecStart=/opt/kubernetes/bin/etcd \\
+ExecStart=/bin/etcd \\
 	-peer-addr=$ETCD_PEER_ADDR \\
 	-addr=$ETCD_ADDR \\
 	-data-dir=$ETCD_DATA_DIR \\
