@@ -1,5 +1,11 @@
 #!/bin/sh
 
+DOCKER_REAL_HOME=/home/docker_not_delete
+
+#1. 由於新系統硬盤/較小，將docker目錄改到/home
+test ! -e $DOCKER_REAL_HOME && mkdir $DOCKER_REAL_HOME
+ln -s $DOCKER_REAL_HOME /var/lib/docker
+
 DOCKER_BRIDGE=kbr0
 DOCKER_CONFIG=/etc/sysconfig/docker
  
