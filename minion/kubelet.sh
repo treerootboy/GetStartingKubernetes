@@ -1,9 +1,9 @@
 #!/bin/sh
 
 etcd_server=
-while getopts -o e: --long etcdapi: option
+while getopts e: option
 do	case "$option" in
-	e|etcdapi)	
+	e)	
 		etcd_server="$OPTARG";;
 	[?]) 
 		echo <<EOF

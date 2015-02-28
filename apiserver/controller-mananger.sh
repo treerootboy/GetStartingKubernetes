@@ -1,6 +1,6 @@
 #!/bin/sh
 
-while getopts -o m: --long minions:,machines: option
+while getopt m: option
 do	case "$option" in
 	m|minions|machines)	
 		minions="$OPTARG";;
